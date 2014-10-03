@@ -125,11 +125,11 @@ end
 def mon_secret
   if node['ceph']['encrypted_data_bags']
     secret = Chef::EncryptedDataBagItem.load_secret(node['ceph']['mon']['secret_file'])
-    Chef::EncryptedDataBagItem.load('ceph', 'mon', secret)['secret']
+    return Chef::EncryptedDataBagItem.load('ceph', 'mon', secret)['secret']
   elsif !mon_nodes.empty?
-    mon_nodes[0]['ceph']['monitor-secret']
+    return mon_nodes[0]['ceph']['monitor-secret']
   elsif node['ceph']['monitor-secret']
-    node['ceph']['monitor-secret']
+    return node['ceph']['monitor-secret']
   else
     Chef::Log.info('No monitor secret found')
     nil
