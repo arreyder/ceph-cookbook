@@ -46,7 +46,7 @@ keyring = "#{Chef::Config[:file_cache_path]}/#{cluster}-#{node['hostname']}.mon.
 execute 'format mon-secret as keyring' do
   command lazy { "ceph-authtool '#{keyring}' --create-keyring --name=mon. --add-key='#{mon_secret}' --cap mon 'allow *'" }
   creates "#{Chef::Config[:file_cache_path]}/#{cluster}-#{node['hostname']}.mon.keyring"
-  only_if { mon_secret }
+  only_if lazy { mon_secret }
 end
 
 execute 'generate mon-secret as keyring' do
